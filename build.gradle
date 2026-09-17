@@ -1,0 +1,32 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm' version "${kotlin_version}"
+    id 'maven-publish'
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+}
+
+def mavenRepoDir = file("${rootDir}/../resources/maven")
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'dev.wren'
+            artifactId = 'justevents'
+            version = project.version
+        }
+    }
+    repositories {
+        maven {
+            name = "whimsyresources"
+            url = uri(mavenRepoDir)
+        }
+    }
+}
